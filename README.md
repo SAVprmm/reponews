@@ -15,7 +15,7 @@ table `test_news`
     KEY `dates_at` (`created_at`,`deleted_at`) USING BTREE
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
   ```
-  file with sql dump `\>test_news.sql` with table struct and 25 rows of news with random insert of datetime
+  file with sql dump <a href="https://github.com/SAVprmm/reponews/blob/main/test_news.sql">test_news.sql »</strong></a> with table struct and 25 rows of news with random insert of datetime
 
 Entity
   ```
@@ -31,13 +31,13 @@ Repository
   ```
   ->find(int $id, $lockMode = null, $lockVersion = null)
   ```
-found news by id
+search news by id
 
 2. findFreshLastDays()
   ```
   ->findFreshLastDays(int $days = 3, array $orderBy = null)
   ```
-finds fresh news for the last $days number of days.
+search fresh news for the last $days number of days.
 by default 3 days.
 
 3. Pagination methods
@@ -82,7 +82,7 @@ by default 3 days.
  3. Home controller routed to index and can be tested with
     symfony webserver
     ```
-    php bin/console server:run
+    #php bin/console server:run
     ```
     
  ### Sql performance
@@ -182,7 +182,8 @@ LIMIT 1 OFFSET 0;
 \>tests\Repository\TestNewsRepositoryTest.php
 ```
 class for test repository, can be execite
-php bin/phpunit tests/Repository/TestNewsRepositoryTest.php
+
+#php bin/phpunit tests/Repository/TestNewsRepositoryTest.php
 
 ```
 \>tests\Repository\TestNewsRepositoryTest.php.html
@@ -192,7 +193,7 @@ Class \TestNewsRepositoryTest(); create simple <a href="https://github.com/SAVpr
 ```
 \>tests\Repository\TestNewsRepositoryTest.php.jpg
 ```
-image of executing test in console.
+<a href="https://github.com/SAVprmm/reponews/blob/main/tests/Repository/TestNewsRepositoryTest.php.jpg">image of executing »</strong></a> test in console.
 
  
  
