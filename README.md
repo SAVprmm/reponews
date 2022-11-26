@@ -134,14 +134,66 @@ ORDER BY t0_.created_at ASC;
  ```
  
  ```sh
- 
+mysql> EXPLAIN SELECT t0_.id AS id_0, t0_.name AS name_1, t0_.text AS text_2, t0_.created_at AS created_at_3, t0_.deleted_at AS deleted_at_4 \
+FROM test_news t0_ \
+WHERE t0_.created_at >= '2022-06-15 00:16:16' AND t0_.deleted_at IS NULL \
+ORDER BY t0_.created_at ASC \
+LIMIT 41 OFFSET 40;
++----+-------------+-------+------------+-------+---------------+----------+---------+------+--------+----------+-----------------------+
+| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows   | filtered | Extra                 |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+--------+----------+-----------------------+
+|  1 | SIMPLE      | t0_   | NULL       | range | dates_at      | dates_at | 11      | NULL | 285268 |    10.00 | Using index condition |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+--------+----------+-----------------------+
+1 row in set, 1 warning (0.00 sec)
+
  ```
  
  ```sh
- 
+mysql> EXPLAIN SELECT t0_.id AS id_0, t0_.name AS name_1, t0_.text AS text_2, t0_.created_at AS created_at_3, t0_.deleted_at AS deleted_at_4 \
+FROM test_news t0_ \
+WHERE t0_.created_at > '0000-00-00 00:00:00' AND t0_.deleted_at IS NULL \
+ORDER BY t0_.created_at ASC \
+LIMIT 1 OFFSET 0;
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+-----------------------+
+| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows    | filtered | Extra                 |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+-----------------------+
+|  1 | SIMPLE      | t0_   | NULL       | range | dates_at      | dates_at | 5       | NULL | 4986899 |    10.00 | Using index condition |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+-----------------------+
+1 row in set, 1 warning (0.00 sec) 
  ```
  
+ ```sh
+mysql> EXPLAIN SELECT t0_.id AS id_0, t0_.name AS name_1, t0_.text AS text_2, t0_.created_at AS created_at_3, t0_.deleted_at AS deleted_at_4 \
+FROM test_news t0_ \
+WHERE t0_.created_at <= NOW() AND t0_.deleted_at IS NULL \
+ORDER BY t0_.created_at DESC \
+LIMIT 1 OFFSET 0;
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+--------------------------------------------+
+| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows    | filtered | Extra                                      |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+--------------------------------------------+
+|  1 | SIMPLE      | t0_   | NULL       | range | dates_at      | dates_at | 11      | NULL | 4986899 |    10.00 | Using index condition; Backward index scan |
++----+-------------+-------+------------+-------+---------------+----------+---------+------+---------+----------+--------------------------------------------+
+1 row in set, 1 warning (0.00 sec) 
+ ```
  
+### PHPunit
+
+```
+\>tests\Repository\TestNewsRepositoryTest.php
+```
+class for test repository, can be execite
+php bin/phpunit tests/Repository/TestNewsRepositoryTest.php
+
+```
+\>tests\Repository\TestNewsRepositoryTest.php.html
+```
+Class \TestNewsRepositoryTest(); create simple <a href="https://github.com/SAVprmm/reponews/blob/main/tests/Repository/TestNewsRepositoryTest.php.html"><strong>html result »</strong></a> of call test function with explanation
+
+```
+\>tests\Repository\TestNewsRepositoryTest.php.jpg
+```
+image of executing test in console.
+
  
  
  
