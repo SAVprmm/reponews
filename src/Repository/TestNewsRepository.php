@@ -323,14 +323,8 @@ class TestNewsRepository extends ServiceEntityRepository
 
             $query = $query->getQuery(); //main move query
 
-//echo $query->getSQL().PHP_EOL;
-//echo '<br>'; print_r($parameters);
-
             $newsInPage = array_merge($newsInPage, $query->getResult()); //merge result of frames
-//echo '<br>newsPaginationStep:'; print_r($this->newsPaginationStep);           
-//echo '<br>newsPaginationId:'; print_r($this->newsPaginationId);
-//echo '<br>'; print_r(count($newsInPage));
-//echo '<br>first id'.$this->firstActiveNewsId.'<hr>';
+
             if( $this->newsPaginationStep > 0 ) {
                 //if move back stop search anyway
                 //because can be read by limit-offset
@@ -341,7 +335,6 @@ class TestNewsRepository extends ServiceEntityRepository
                     break;
                 }
                 foreach ( $newsInPage as $news ) { //prevent repeated empty queries in the wall
-//echo '<br>first test'.$this->firstActiveNewsId.'|'.$news->getId();
                     if ( $this->firstActiveNewsId == $news->getId() ) {
                         //if found first news id stop search
                         break 2;
@@ -350,8 +343,6 @@ class TestNewsRepository extends ServiceEntityRepository
             }
         }
 
-        //in storage all records always reading with ASC sorting
-        //this prevent of "Backward index scan"
         usort($newsInPage, $this->sortArrayObjects(false));
 
         //cut off the extra amount that was used for test on exist of next page
@@ -366,15 +357,10 @@ class TestNewsRepository extends ServiceEntityRepository
             $newsInPage = array_slice($newsInPage, $cutFrom, $this->newsPaginationPerPage);
         }
         
-//print_r($newsInPage[0]);
-//print_r($newsInPage[(count($newsInPage)-1)]);
-//echo '<br>f and last|'.$this->firstActiveNewsId.'|'.$this->lastActiveNews->getId().'<br>';
-        
         //test if pagination can go back
         if($newsInPage[0]->getId() != $this->firstActiveNewsId && $newsInPage[(count($newsInPage)-1)]->getId() != $this->firstActiveNewsId) {
             $nextStatus = $newsInPage[0]->getId();
         }
-//echo '<br>'.$newsInPage[0]->getCreatedAt()->format('Y-m-d H:i:s').'|'.$this->lastActiveNews->getCreatedAt()->format('Y-m-d H:i:s');
 
         //test if pagination can go forward
         if($newsInPage[0]->getCreatedAt() != $this->lastActiveNews->getCreatedAt()) {
